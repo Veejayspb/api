@@ -42,7 +42,7 @@ class Rule
 
         return
             $method === $request->getMethod() &&
-            $this->pattern === $request->getUri();
+            $this->pattern === $request->getPath();
     }
 
     /**
@@ -71,6 +71,19 @@ class Rule
     }
 
     /**
+     * Вернуть название действия.
+     * @return string|null
+     */
+    public function getActionName(): ?string
+    {
+        if (!isset($this->route[1]) || !is_string($this->route[1])) {
+            return null;
+        }
+
+        return $this->route[1];
+    }
+
+    /**
      * Инстанцировать контроллер.
      * @return Controller
      * @throws Exception
@@ -86,18 +99,5 @@ class Rule
         }
 
         return new $this->route[0];
-    }
-
-    /**
-     * Вернуть название действия.
-     * @return string|null
-     */
-    protected function getActionName(): ?string
-    {
-        if (!isset($this->route[1]) || !is_string($this->route[1])) {
-            return null;
-        }
-
-        return $this->route[1];
     }
 }
