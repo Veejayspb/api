@@ -38,7 +38,7 @@ class Rule
      */
     public function compare(Request $request): bool
     {
-        $method = $this->route[2] ?? null;
+        $method = $this->getMethodName();
 
         return
             $method === $request->getMethod() &&
@@ -94,6 +94,19 @@ class Rule
         }
 
         return $this->route[1];
+    }
+
+    /**
+     * Вернуть название метода.
+     * @return string|null
+     */
+    public function getMethodName(): ?string
+    {
+        if (!isset($this->route[2]) || !is_string($this->route[2])) {
+            return null;
+        }
+
+        return $this->route[2];
     }
 
     /**
