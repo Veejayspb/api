@@ -30,10 +30,10 @@ class ResponseXml extends Response
     /**
      * {@inheritdoc}
      */
-    protected function getBody(array $data): string
+    protected function getBody(): string
     {
         $xml = new SimpleXMLElement("<$this->rootName/>");
-        $this->array2xml($data, $xml);
+        $this->array2xml($this->data, $xml);
         return $xml->asXML();
     }
 

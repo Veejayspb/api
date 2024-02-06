@@ -27,13 +27,12 @@ abstract class Response
     public function run(): string
     {
         http_response_code($this->code);
-        return $this->getBody($this->data);
+        return $this->getBody();
     }
 
     /**
      * Формирование тела ответа.
-     * @param array $data - данные, передаваемые в ответ
      * @return string
      */
-    abstract protected function getBody(array $data): string;
+    abstract protected function getBody(): string;
 }

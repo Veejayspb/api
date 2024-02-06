@@ -16,8 +16,8 @@ class ResponseJson extends Response
     /**
      * {@inheritdoc}
      */
-    protected function getBody(array $data): string
+    protected function getBody(): string
     {
-        return json_encode($data);
+        return json_encode($this->data);
     }
 }
