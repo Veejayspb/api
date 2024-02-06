@@ -63,6 +63,10 @@ class Rule
             throw new Exception('Method not found', 404);
         }
 
+        if (!$controller->_access($actionName)) {
+            throw new Exception('Access forbidden', 403);
+        }
+
         return call_user_func([$controller, $actionName]);
     }
 
