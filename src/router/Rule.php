@@ -76,11 +76,7 @@ class Rule
      */
     public function getControllerName(): ?string
     {
-        if (!isset($this->route[0]) || !is_string($this->route[0])) {
-            return null;
-        }
-
-        return $this->route[0];
+        return $this->getRoutePart(0);
     }
 
     /**
@@ -89,11 +85,7 @@ class Rule
      */
     public function getActionName(): ?string
     {
-        if (!isset($this->route[1]) || !is_string($this->route[1])) {
-            return null;
-        }
-
-        return $this->route[1];
+        return $this->getRoutePart(1);
     }
 
     /**
@@ -102,11 +94,7 @@ class Rule
      */
     public function getMethodName(): ?string
     {
-        if (!isset($this->route[2]) || !is_string($this->route[2])) {
-            return null;
-        }
-
-        return $this->route[2];
+        return $this->getRoutePart(2);
     }
 
     /**
@@ -127,5 +115,19 @@ class Rule
         }
 
         return new $controllerName;
+    }
+
+    /**
+     * Вернуть часть массива роута с указанным индексом.
+     * @param int $index
+     * @return string|null
+     */
+    protected function getRoutePart(int $index): ?string
+    {
+        if (!isset($this->route[$index]) || !is_string($this->route[$index])) {
+            return null;
+        }
+
+        return $this->route[$index];
     }
 }
