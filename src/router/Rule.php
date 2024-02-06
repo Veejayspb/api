@@ -3,6 +3,7 @@
 namespace veejay\api\router;
 
 use veejay\api\component\Controller;
+use veejay\api\component\Exception;
 use veejay\api\request\Request;
 
 class Rule
@@ -46,30 +47,41 @@ class Rule
 
     /**
      * Запустить контроллер/действие и вернуть результат выполнения.
-     * @return array|null
+     * @return array
+     * @throws Exception
      */
-    public function run(): ?array
+    public function run(): array
     {
         $controller = $this->getController();
+        $actionName = $this->getActionName();
 
-        if (!$controller) {
-            return null;
+        if ($actionName === null) {
+            throw new Exception('Action name not specified', 500);
         }
 
-        return $this->runAction($controller);
+        if (!method_exists($controller, $actionName)) {
+            throw new Exception('Method not found', 404);
+        }
+
+        return call_user_func([$controller, $actionName]);
     }
 
     /**
      * Инстанцировать контроллер.
-     * @return Controller|null
+     * @return Controller
+     * @throws Exception
      */
-    protected function getController(): ?Controller
+    protected function getController(): Controller
     {
-        if (isset($this->route[0]) && is_subclass_of($this->route[0], Controller::class)) {
-            return new $this->route[0];
+        if (!isset($this->route[0])) {
+            throw new Exception('Controller name not specified', 500);
         }
 
-        return null;
+        if (!is_subclass_of($this->route[0], Controller::class)) {
+            throw new Exception('Invalid controller name', 500);
+        }
+
+        return new $this->route[0];
     }
 
     /**
@@ -83,21 +95,5 @@ class Rule
         }
 
         return $this->route[1];
-    }
-
-    /**
-     * Запуск действия.
-     * @param Controller $controller
-     * @return array|null
-     */
-    protected function runAction(Controller $controller): ?array
-    {
-        $action = $this->getActionName();
-
-        if (!method_exists($controller, $action)) {
-            return null;
-        }
-
-        return call_user_func([$controller, $action]);
     }
 }
