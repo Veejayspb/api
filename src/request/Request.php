@@ -114,13 +114,13 @@ class Request
      */
     public function getHeaderPayload(): array
     {
-        $content = file_get_contents('php://input');
+        $input = $this->getInputStream();
 
-        if ($content === false) {
+        if ($input === false) {
             return [];
         }
 
-        parse_str($content, $data);
+        parse_str($input, $data);
         return $data;
     }
 
@@ -131,5 +131,13 @@ class Request
     public function getUriPayload(): array
     {
         return $_GET;
+    }
+
+    /**
+     * @return bool|string
+     */
+    protected function getInputStream(): bool|string
+    {
+        return file_get_contents('php://input');
     }
 }
