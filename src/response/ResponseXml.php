@@ -66,7 +66,7 @@ class ResponseXml extends Response
      */
     private function getElementName(int|string $key): string
     {
-        return is_string($key) ? $key : $this->itemName;
+        return is_string($key) && $key != '' ? $key : $this->itemName;
     }
 
     /**
