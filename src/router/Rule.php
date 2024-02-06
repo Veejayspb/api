@@ -71,6 +71,19 @@ class Rule
     }
 
     /**
+     * Вернуть название контроллера.
+     * @return string|null
+     */
+    public function getControllerName(): ?string
+    {
+        if (!isset($this->route[0]) || !is_string($this->route[0])) {
+            return null;
+        }
+
+        return $this->route[0];
+    }
+
+    /**
      * Вернуть название действия.
      * @return string|null
      */
@@ -90,14 +103,16 @@ class Rule
      */
     protected function getController(): Controller
     {
-        if (!isset($this->route[0])) {
+        $controllerName = $this->getControllerName();
+
+        if ($controllerName === null) {
             throw new Exception('Controller name not specified', 500);
         }
 
-        if (!is_subclass_of($this->route[0], Controller::class)) {
+        if (!is_subclass_of($controllerName, Controller::class)) {
             throw new Exception('Invalid controller name', 500);
         }
 
-        return new $this->route[0];
+        return new $controllerName;
     }
 }
