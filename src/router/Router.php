@@ -10,13 +10,13 @@ class Router
      * Объекта запроса.
      * @var Request
      */
-    protected Request $request;
+    public Request $request;
 
     /**
      * Правила роутинга.
      * @var array
      */
-    protected array $rules;
+    public array $rules;
 
     /**
      * @param Request $request
@@ -30,14 +30,15 @@ class Router
 
     /**
      * Вернуть подходящее запросу правило.
-     * @return Rule|null
+     * @return RuleInterface|null
      */
-    public function getRule(): ?Rule
+    public function findRule(): ?RuleInterface
     {
-        foreach ($this->rules as $pattern => $route) {
-            $rule = $this->createRule($pattern, $route);
+        foreach ($this->rules as $properties) {
+            $rule = $this->createRule($properties);
+            $compare = $rule->compare($this->request);
 
-            if ($rule->compare($this->request)) {
+            if ($compare) {
                 return $rule;
             }
         }
@@ -47,12 +48,19 @@ class Router
 
     /**
      * Инстанцировать объект с правилом.
-     * @param string $pattern
-     * @param array $route
-     * @return Rule
+     * @param array $properties
+     * @return RuleInterface
      */
-    protected function createRule(string $pattern, array $route): Rule
+    protected function createRule(array $properties): RuleInterface
     {
-        return new Rule($pattern, $route);
+        $pattern = $properties[0] ?? '';
+        $controller = $properties[1] ?? '';
+        $action = $properties[2] ?? '';
+
+        if (array_key_exists(3, $properties)) {
+            return new Rule($pattern, $controller, $action, $properties[3]);
+        } else {
+            return new Rule($pattern, $controller, $action);
+        }
     }
 }

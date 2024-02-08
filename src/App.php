@@ -88,13 +88,14 @@ class App
             }
 
             $router = $this->getRouter($rules);
-            $rule = $router->getRule();
+            $rule = $router->findRule();
 
             if (!$rule) {
                 throw new Exception('Method not found', 404);
             }
 
-            $data = $rule->run();
+            $params = $rule->getParams($request->getPath());
+            $data = $rule->run($params);
 
             if ($data === null) {
                 throw new Exception('Method not found', 404);
