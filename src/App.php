@@ -95,13 +95,7 @@ class App
             }
 
             $params = $rule->getParams($request->getPath());
-            $data = $rule->run($params);
-
-            if ($data === null) {
-                throw new Exception('Method not found', 404);
-            }
-
-            $response->data = $data;
+            $response->data = $rule->run($params);
         } catch (Exception $e) {
             $e->prepareResponse($response);
         } catch (Throwable $e) {
