@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use test\helper\TestController;
 use veejay\api\App;
-use veejay\api\component\Controller;
 use veejay\api\request\Request;
 
 final class AppTest extends TestCase
@@ -35,7 +35,7 @@ final class AppTest extends TestCase
             ]);
         });
 
-        $this->assertSame('["test\/index"]', $content);
+        $this->assertSame('["index",null]', $content);
     }
 
     public function testRunWrongMethod()
@@ -105,13 +105,5 @@ final class AppTest extends TestCase
         ob_start();
         call_user_func($callback);
         return ob_get_clean();
-    }
-}
-
-class TestController extends Controller
-{
-    public function index(): array
-    {
-        return ['test/index'];
     }
 }

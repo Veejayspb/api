@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use veejay\api\component\Controller;
+use test\helper\TestController;
 use veejay\api\request\Request;
 use veejay\api\router\Rule;
 
@@ -118,23 +118,5 @@ final class RuleTest extends TestCase
                 return $this->method;
             }
         };
-    }
-}
-
-final class TestController extends Controller
-{
-    public function _access(string $action): bool
-    {
-        return $action != 'forbidden';
-    }
-
-    public function index(?string $name = null): array
-    {
-        return ['index', $name];
-    }
-
-    public function forbidden(): array
-    {
-        return ['forbidden'];
     }
 }
