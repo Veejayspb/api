@@ -29,7 +29,7 @@ final class ExceptionTest extends TestCase
     {
         return new class extends Response
         {
-            protected function getBody(array $data): string
+            protected function getBody(): string
             {
                 return '';
             }
