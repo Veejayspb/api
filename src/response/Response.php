@@ -2,7 +2,9 @@
 
 namespace veejay\api\response;
 
-abstract class Response
+use veejay\api\component\Component;
+
+abstract class Response extends Component
 {
     const DEFAULT_CODE = 200;
 

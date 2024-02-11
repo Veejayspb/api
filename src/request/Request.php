@@ -2,7 +2,9 @@
 
 namespace veejay\api\request;
 
-class Request
+use veejay\api\component\Component;
+
+class Request extends Component
 {
     const GET =     'GET';
     const POST =    'POST';

@@ -3,6 +3,7 @@
 namespace veejay\api;
 
 use Throwable;
+use veejay\api\component\Component;
 use veejay\api\component\Exception;
 use veejay\api\request\Request;
 use veejay\api\response\Response;
@@ -17,16 +18,10 @@ use veejay\api\router\Router;
 class App
 {
     /**
-     * Объект запроса.
-     * @var Request
+     * Список инстанцированных компонентов.
+     * @var Component[]
      */
-    protected Request $request;
-
-    /**
-     * Объект ответа.
-     * @var Response
-     */
-    protected Response $response;
+    protected array $components = [];
 
     /**
      * Индикатор запуска приложения.
@@ -44,15 +39,22 @@ class App
 
     /**
      * @param string $name
-     * @return mixed
+     * @return Component
+     * @throws Exception
      */
     public function __get(string $name)
     {
-        return match ($name) {
-            'request' => $this->request = $this->request ?? $this->getRequest(),
-            'response' => $this->response = $this->response ?? $this->getResponse(),
-            default => $this->$name,
-        };
+        if (!array_key_exists($name, $this->components)) {
+            $component = $this->getComponent($name);
+
+            if (!$component) {
+                throw new Exception("Component not found: $name", 500);
+            }
+
+            $this->components[$name] = $component;
+        }
+
+        return $this->components[$name];
     }
 
     /**
@@ -104,6 +106,28 @@ class App
         }
 
         echo $response->run();
+    }
+
+    /**
+     * Создать объект указанного компонента.
+     * @param string $name - название компонента
+     * @return Component|null
+     */
+    protected function getComponent(string $name): ?Component
+    {
+        $methodName = 'get' . ucfirst($name);
+
+        if (!method_exists($this, $methodName)) {
+            return null;
+        }
+
+        $component = call_user_func([$this, $methodName]);
+
+        if (!is_subclass_of($component, Component::class)) {
+            return null;
+        }
+
+        return $component;
     }
 
     /**
