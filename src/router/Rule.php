@@ -89,7 +89,7 @@ class Rule implements RuleInterface
             throw new Exception('Invalid controller name', 500);
         }
 
-        $controller = new $this->controller;
+        $controller = new $this->controller; /* @var Controller $controller */
 
         if (!method_exists($controller, $this->action)) {
             throw new Exception('Method not found', 404);
