@@ -1,0 +1,35 @@
+
+body {
+    max-width: 768px;
+    margin: 0 auto;
+}
+h1 {
+    text-align: center;
+}
+details {
+    margin-bottom: 5px;
+}
+summary {
+    line-height: 30px;
+}
+.label {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background-color: #ccc;
+    color: #fff;
+}
+.label-get {
+    background-color: mediumblue;
+}
+.label-post {
+    background-color: green;
+}
+.label-patch, .label-put {
+    background-color: orange;
+}
+.label-delete {
+    background-color: red;
+}
