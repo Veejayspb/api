@@ -1,0 +1,13 @@
+{
+    "name": "veejay/api",
+    "description": "API & documentation builder",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "veejay\\api\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    }
+}
