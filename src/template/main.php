@@ -1,6 +1,6 @@
 <?php
 use veejay\api\Application;
-use veejay\api\View;
+use veejay\api\component\View;
 
 /* @var View $this */
 /* @var Application $application */

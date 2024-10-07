@@ -3,6 +3,10 @@
 namespace veejay\api;
 
 use Throwable;
+use veejay\api\component\Exception;
+use veejay\api\component\Request;
+use veejay\api\component\Route;
+use veejay\api\component\View;
 use veejay\api\response\Response;
 use veejay\api\response\ResponseJson;
 

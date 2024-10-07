@@ -1,6 +1,6 @@
 <?php
 
-namespace veejay\api;
+namespace veejay\api\component;
 
 use veejay\api\response\Response;
 

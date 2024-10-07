@@ -1,6 +1,6 @@
 <?php
-use veejay\api\Route;
-use veejay\api\View;
+use veejay\api\component\Route;
+use veejay\api\component\View;
 
 /* @var View $this */
 /* @var Route $route */
