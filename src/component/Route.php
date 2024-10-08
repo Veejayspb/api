@@ -94,7 +94,7 @@ class Route
         $uri = $request->getPath();
         $pattern = $this->generateRegexp();
 
-        return preg_match($pattern, $uri) === 1;
+        return preg_match($pattern, $uri);
     }
 
     /**
@@ -111,9 +111,13 @@ class Route
             return [];
         }
 
-        return array_filter($matches, function ($key) {
+        $params = array_filter($matches, function ($key) {
             return !is_int($key);
         }, ARRAY_FILTER_USE_KEY);
+
+        return array_map(function ($param) {
+            return (int)$param;
+        }, $params);
     }
 
     /**
