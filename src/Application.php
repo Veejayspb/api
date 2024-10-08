@@ -97,12 +97,12 @@ class Application
 
     /**
      * Регистрация роутов из массива данных.
-     * @param array $config
+     * @param array $items
      * @return void
      */
-    public function registerRoutes(array $config): void
+    public function registerRoutes(array $items): void
     {
-        foreach ($config as $item) {
+        foreach ($items as $item) {
             $this->routes[] = new Route($this, $item);
         }
     }
