@@ -1,9 +1,9 @@
 <?php
-use veejay\api\Application;
+use veejay\api\App;
 use veejay\api\component\View;
 
 /* @var View $this */
-/* @var Application $application */
+/* @var App $application */
 ?>
 <!doctype html>
 <html lang="en">

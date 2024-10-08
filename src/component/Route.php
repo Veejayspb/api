@@ -2,7 +2,7 @@
 
 namespace veejay\api\component;
 
-use veejay\api\Application;
+use veejay\api\App;
 
 class Route
 {
@@ -52,15 +52,15 @@ class Route
 
     /**
      * Объект приложения.
-     * @var Application
+     * @var App
      */
-    protected Application $application;
+    protected App $application;
 
     /**
-     * @param Application $application
+     * @param App $application
      * @param array $properties
      */
-    public function __construct(Application $application, array $properties)
+    public function __construct(App $application, array $properties)
     {
         $this->application = $application;
 

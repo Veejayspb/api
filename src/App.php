@@ -10,7 +10,7 @@ use veejay\api\component\View;
 use veejay\api\response\Response;
 use veejay\api\response\ResponseJson;
 
-class Application
+class App
 {
     /**
      * Базовый URI.
