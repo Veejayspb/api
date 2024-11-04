@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: 'Тестовый API'
+  description: 'Описание тестового API.'
+  version: '1.0'
+servers:
+  -
+    url: 'http://api.local'
+    description: production
+paths:
+  /user:
+    get:
+      tags:
+        - user
+      summary: 'Список пользователей'
+      description: 'Описание метода со списком пользователей.'
+      operationId: 50162f56fe99a12cb09eeb15c8ee8ad1
+      responses:
+        '200':
+          description: 'Список пользователей'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - user
+      summary: 'Добавление пользователя'
+      description: 'Описание метода с добавлением пользователя.'
+      operationId: 5350d9fb2974f5807987a70ec91a8ea6
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        '201':
+          description: Добавлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 'Ошибка при добавлении'
+  '/user/{id}':
+    get:
+      tags:
+        - user
+      summary: 'Просмотр пользователя'
+      description: 'Описание метода с просмотром пользователя.'
+      operationId: 65c1f00c5a4ca4f8db8bd26da654abf9
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID пользователя'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'Данные пользователя'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'Пользователь не найден'
+    delete:
+      tags:
+        - user
+      summary: 'Удаление пользователя'
+      description: 'Описание метода с удалением пользователя.'
+      operationId: 9f6ca60c4c45baba7716dc08a4852071
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID пользователя'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Удалено
+        '400':
+          description: 'Ошибка при удалении'
+        '404':
+          description: 'Пользователь не найден'
+    patch:
+      tags:
+        - user
+      summary: 'Изменение пользователя'
+      description: 'Описание метода с изменением пользователя.'
+      operationId: ba897b70f3d85cb5e1f9915572d66563
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID пользователя'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        '200':
+          description: Изменено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 'Ошибка при изменении'
+        '404':
+          description: 'Пользователь не найден'
+components:
+  schemas:
+    User:
+      title: Пользователь
+      description: 'Данные пользователя'
+      required:
+        - id
+      properties:
+        id:
+          title: ID
+          description: Идентификатор
+          format: int64
+          example: 1
+        name:
+          title: Имя
+          description: 'Имя пользователя'
+          format: string
+          example: Рокки
+        surname:
+          title: Фамилия
+          description: 'Фамилия пользователя'
+          format: string
+          example: Рокфор
+      type: object
+  requestBodies:
+    User:
+      description: 'Добавление нового пользователя'
+      content:
+        application/json:
+          schema:
+            $ref: '#components/schemas/User'
+tags:
+  -
+    name: user
+    description: 'Операции с пользователями'
