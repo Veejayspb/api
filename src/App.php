@@ -125,7 +125,7 @@ class App
 
         } catch (Throwable $exception) {
 
-            $exception = new Exception($exception->getMessage(), Code::INTERNAL_SERVER_ERROR, $exception);
+            $exception = new Exception($exception->getMessage(), $exception->getCode(), $exception);
             $exception->prepareResponse($this->response);
 
         }
