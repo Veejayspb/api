@@ -151,6 +151,7 @@ class Request
     /**
      * Вернуть декодированный массив данных, переданных в заголовке запроса.
      * @return array
+     * @throws Exception
      */
     public function getHeaderPayload(): array
     {
@@ -162,9 +163,17 @@ class Request
 
         $contentType = $this->getHeader('content-type');
 
-        return match ($contentType) {
-            'application/json' => json_decode($payload, true) ?? [],
-            default => StringHelper::parseStr($payload),
-        };
+        if ($contentType == 'application/json') {
+            $data = json_decode($payload, true) ?? [];
+            $jsonError = json_last_error();
+
+            if ($jsonError !== JSON_ERROR_NONE) {
+                throw new Exception('JSON encoding error', 400);
+            }
+
+            return $data;
+        } else {
+            return StringHelper::parseStr($payload);
+        }
     }
 }
