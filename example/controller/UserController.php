@@ -20,9 +20,9 @@ class UserController extends Controller
 
         return match ($action) {
             'index',
-            'view' => true,
+            'view',
             'create',
-            'update',
+            'update' => true,
             'delete' => $token == static::TOKEN,
             default => parent::__access($action, $arguments),
         };
