@@ -44,7 +44,17 @@ class Request
      */
     public function getScheme(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] ?? 'http';
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+            return $_SERVER['HTTP_X_FORWARDED_PROTO'];
+        } elseif (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            return 'https';
+        } elseif (isset($_SERVER['REQUEST_SCHEME'])) {
+            return $_SERVER['REQUEST_SCHEME'];
+        } elseif ($_SERVER['SERVER_PORT'] == 443) {
+            return 'https';
+        } else {
+            return 'http';
+        }
     }
 
     /**
